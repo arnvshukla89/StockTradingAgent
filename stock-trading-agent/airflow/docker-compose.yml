@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  airflow-webserver:
+    image: apache/airflow:2.5.0
+    restart: always
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+      - AIRFLOW__API__AUTH_BACKEND=airflow.api.auth.backend.basic
+      - AIRFLOW__WEBSERVER__RBAC=True
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./logs:/usr/local/airflow/logs
+      - ./plugins:/usr/local/airflow/plugins
+
+  airflow-scheduler:
+    image: apache/airflow:2.5.0
+    restart: always
+    depends_on:
+      - airflow-webserver
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./logs:/usr/local/airflow/logs
+      - ./plugins:/usr/local/airflow/plugins
+
+  airflow-worker:
+    image: apache/airflow:2.5.0
+    restart: always
+    depends_on:
+      - airflow-webserver
+    environment:
+      - AIRFLOW__CORE__EXECUTOR=LocalExecutor
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./logs:/usr/local/airflow/logs
+      - ./plugins:/usr/local/airflow/plugins
+
+  airflow-flower:
+    image: apache/airflow:2.5.0
+    restart: always
+    depends_on:
+      - airflow-webserver
+    ports:
+      - "5555:5555"
+    command: flower
+
+networks:
+  default:
+    driver: bridge

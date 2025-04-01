@@ -1,0 +1,35 @@
+stages:
+  - name: data_ingestion
+    cmd: python src/trading_agent/data_ingestion/historical_data.py
+    deps:
+      - data/raw
+    outs:
+      - data/processed
+
+  - name: feature_engineering
+    cmd: python src/trading_agent/pipelines/training_pipeline.py
+    deps:
+      - data/processed
+    outs:
+      - data/features
+
+  - name: model_training
+    cmd: python src/trading_agent/models/train.py
+    deps:
+      - data/features
+    outs:
+      - models/model.pkl
+
+  - name: model_evaluation
+    cmd: python src/trading_agent/models/evaluate.py
+    deps:
+      - models/model.pkl
+    outs:
+      - metrics/evaluation.json
+
+  - name: model_deployment
+    cmd: python scripts/deploy_model.py
+    deps:
+      - models/model.pkl
+    outs:
+      - deployment/status.txt

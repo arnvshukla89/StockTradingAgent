@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stock-trading-agent
+  labels:
+    app: stock-trading-agent
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: stock-trading-agent
+  template:
+    metadata:
+      labels:
+        app: stock-trading-agent
+    spec:
+      containers:
+      - name: trading-agent
+        image: your-docker-image:latest
+        ports:
+        - containerPort: 80
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        - name: DATABASE_URL
+          value: "your-database-url"
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: api-key-secret
+              key: api-key
+        volumeMounts:
+        - name: model-volume
+          mountPath: /app/models
+      volumes:
+      - name: model-volume
+        persistentVolumeClaim:
+          claimName: model-pvc
+      imagePullSecrets:
+      - name: regcred

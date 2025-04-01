@@ -1,0 +1,13 @@
+apache-airflow
+pandas
+requests
+websocket-client
+numpy
+scikit-learn
+matplotlib
+seaborn
+pydantic
+fastapi
+mlflow
+dvc
+evidently

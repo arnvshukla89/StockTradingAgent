@@ -1,0 +1,39 @@
+[project]
+name = "stock-trading-agent"
+version = "0.2.0"
+description = "An AI-based stock trading agent with XGBoost and Generative AI"
+authors = [
+    {name = "arnvshukla@gmail.com"}
+]
+packages = [{include = "stock_trading_agent"},  { include = "notebooks" }]
+readme = "README.md"
+requires-python = ">=3.10,<=3.13.2"
+dependencies = [
+    "numpy (>=1.23.5,<2.0.0)",
+    "fastapi (>=0.115.11,<0.116.0)",
+    "uvicorn (>=0.34.0,<0.38.0)",
+    "pandas (>=2.2.3,<3.0.0)",
+    "scikit-learn (>=1.6.1,<2.0.0)",
+    "xgboost (>=3.0.0,<4.0.0)",
+    "mlflow (>=2.21.0,<3.0.0)",
+    "dvc (>=3.59.1,<4.0.0)",
+    "websocket-client (>=1.8.0,<2.0.0)",
+    "evidently (>=0.6.6,<0.7.0)",
+    "python-dotenv (>=1.0.1,<2.0.0)",
+    "polygon (>=1.2.6,<2.0.0)",
+    "jupyter (>=1.1.1,<2.0.0)",
+    "notebook (>=7.3.3,<8.0.0)",
+    "polygon-api-client (>=1.14.4,<2.0.0)"
+]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+requests = "^2.32.3"
+pytest = "^8.3.5"
+black = "^25.1.0"
+mypy = "^1.15.0"
+flake8 = "^7.1.2"
+
